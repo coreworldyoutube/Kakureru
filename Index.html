@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Search Website</title>
+    <title>Local Image Search</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-    <h1>Image Search Website</h1>
+    <h1>Local Image Search</h1>
     <form id="search-form">
         <input type="text" id="search-query" placeholder="Search for images...">
         <button type="submit">Search</button>
@@ -36,23 +36,28 @@
     <div id="results"></div>
 
     <script>
+        const images = [
+            { src: 'images/image1.jpg', keywords: ['cat', 'animal'] },
+            { src: 'images/image2.jpg', keywords: ['dog', 'animal'] },
+            { src: 'images/image3.jpg', keywords: ['bird', 'animal'] },
+            // 追加の画像情報をここに追加
+        ];
+
         document.getElementById('search-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            const query = document.getElementById('search-query').value;
-            fetch(`https://api.example.com/search?query=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    const resultsDiv = document.getElementById('results');
-                    resultsDiv.innerHTML = '';
-                    data.results.forEach(image => {
-                        const imgElement = document.createElement('img');
-                        imgElement.src = image.url;
-                        const resultDiv = document.createElement('div');
-                        resultDiv.className = 'result';
-                        resultDiv.appendChild(imgElement);
-                        resultsDiv.appendChild(resultDiv);
-                    });
-                });
+            const query = document.getElementById('search-query').value.toLowerCase();
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            images.forEach(image => {
+                if (image.keywords.some(keyword => keyword.includes(query))) {
+                    const imgElement = document.createElement('img');
+                    imgElement.src = image.src;
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'result';
+                    resultDiv.appendChild(imgElement);
+                    resultsDiv.appendChild(resultDiv);
+                }
+            });
         });
     </script>
 </body>
