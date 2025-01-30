@@ -1,2 +1,2 @@
 # Kakureru
-Mika see
+未完成
